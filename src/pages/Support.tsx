@@ -41,7 +41,7 @@ const Support: React.FC<SupportProps> = () => {
       <IonContent>
 
         <div className="login-logo">
-          <img src="assets/img/appicon.svg" alt="Ionic logo" />
+          <img src="assets/img/support.png" alt="Ionic logo" height="200" width="800px"/>
         </div>
 
         <form noValidate onSubmit={send}>

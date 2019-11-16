@@ -20,8 +20,8 @@ import { setDarkMode } from '../data/user/user.actions';
 
 const routes = {
   appPages: [
-    { title: 'Schedule', path: '/tabs/schedule', icon: calendar },
-    { title: 'Speakers', path: '/tabs/speakers', icon: contacts },
+    { title: 'Notifications', path: '/tabs/schedule', icon: calendar },
+    { title: 'Doctors', path: '/tabs/speakers', icon: contacts },
     { title: 'Map', path: '/tabs/map', icon: map },
     { title: 'About', path: '/tabs/about', icon: informationCircle }
   ],
@@ -86,16 +86,7 @@ const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDark
           <IonListHeader>Account</IonListHeader>
           {isAuthenticated ? renderlistItems(routes.loggedInPages) : renderlistItems(routes.loggedOutPages)}
         </IonList>
-        <IonList>
-          <IonListHeader>Tutorial</IonListHeader>
-          <IonItem onClick={() => {
-            setDisableMenu(true);
-            history.push('/tutorial');
-          }}>
-            <IonIcon slot="start" icon={hammer} />
-            Show Tutorial
-          </IonItem>
-        </IonList>
+       
         <IonList>
           <IonItem>
             <IonLabel>Dark Theme</IonLabel>
