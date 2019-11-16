@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IonToolbar, IonContent, IonPage, IonButtons, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
 import { connect } from '../data/connect';
 import { options } from 'ionicons/icons';
@@ -9,7 +9,7 @@ import * as selectors from '../data/selectors';
 import { setSearchText, addFavorite, removeFavorite } from '../data/sessions/sessions.actions';
 import ShareSocialFab from '../components/ShareSocialFab';
 import { SessionGroup } from '../models/SessionGroup';
-
+import Axios from 'axios'
 interface OwnProps { }
 
 interface StateProps {
@@ -29,14 +29,20 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGrou
   const [showFilterModal, setShowFilterModal] = useState(false);
   const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
-
+  const [incidente, setIncidente] = useState([]);
   const doRefresh = () => {
     setTimeout(() => {
       ionRefresherRef.current!.complete();
       setShowCompleteToast(true);
     }, 2500)
   };
+  useEffect(()=>{
+    Axios.get('http://192.168.1.198:9586/incidents/getincidents').then((response) => {
+      console.log(response.data)
+      setIncidente(response.data)
 
+    })
+  },[1])
   return (
     <IonPage id="schedule-page">
       <IonHeader>
@@ -78,15 +84,14 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGrou
           onDidDismiss={() => setShowCompleteToast(false)}
         />
 
-        <SessionList
+        {/* <SessionList
           sessionGroups={sessionGroups}
           listType={segment}
           hide={segment === 'favorites'}
-        />
+        /> */}
+        
         <SessionList
-          sessionGroups={favoriteGroups}
-          listType={segment}
-          hide={segment === 'all'}
+          incidents={incidente}
         />
       </IonContent>
 
