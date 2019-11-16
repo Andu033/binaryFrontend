@@ -24,8 +24,8 @@ interface DispatchProps {
 
 interface SessionListProps extends OwnProps, StateProps, DispatchProps { };
 
-const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, favoriteSessions, hide, sessionGroups, listType }) => {
-
+const SessionList: React.FC<any> = ({ incidents }) => {
+console.log(incidents)
   const [showAlert, setShowAlert] = useState(false);
   const [alertHeader, setAlertHeader] = useState('');
   const [alertButtons, setAlertButtons] = useState<(AlertButton | string)[]>([]);
@@ -36,7 +36,7 @@ const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, 
     setShowAlert(true);
   }, []);
 
-  if (sessionGroups.length === 0 && !hide) {
+  if (incidents.length === 0) {
     return (
       <IonList>
         <IonListHeader>
@@ -48,26 +48,9 @@ const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, 
 
   return (
     <>
-      <IonList style={hide ? { display: 'none' } : {}}>
-        {sessionGroups.map((group, index: number) => (
-          <IonItemGroup key={`group-${index}`}>
-            <IonItemDivider sticky>
-              <IonLabel>
-                <Time date={group.startTime} />
-              </IonLabel>
-            </IonItemDivider>
-            {group.sessions.map((session: Session, sessionIndex: number) => (
-              <SessionListItem
-                onShowAlert={handleShowAlert}
-                isFavorite={favoriteSessions.indexOf(session.id) > -1}
-                onAddFavorite={addFavorite}
-                onRemoveFavorite={removeFavorite}
-                key={`group-${index}-${sessionIndex}`}
-                session={session}
-                listType={listType}
-              />
-            ))}
-          </IonItemGroup>
+      <IonList>
+        {incidents.map((incident:any, index: number) => (
+          <IonLabel>{incident.id+"  "}</IonLabel>
         ))}
       </IonList>
       <IonAlert
