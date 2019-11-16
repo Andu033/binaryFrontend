@@ -163,12 +163,7 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
             
 
             
-            <IonItem>
-              <IonLabel position="stacked" color="primary">Selfie (please take a selfie)</IonLabel>
-            </IonItem>
-            <IonButton expand="block" onClick={takePicture}>Take pic</IonButton>
-              <img alt="Imagine inexistenta" src={selfie}/>
-
+            
           
  
           </IonList>
