@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
+import { IonCheckbox, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
 import { connect } from '../data/connect';
@@ -9,6 +9,7 @@ import { async } from 'q';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { render } from '@testing-library/react';
 
+import axios from 'axios';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -53,9 +54,19 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
    }
   };
 
+  const [doctor, setDoctor]=useState(false);
+  const [doctorError, setDoctorError] = useState(false);
+
+
+
   const login = async (e: React.FormEvent) => {
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+
     e.preventDefault();
     setFormSubmitted(true);
+
     if(!username) {
       setUsernameError(true);
     }
@@ -75,6 +86,11 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
       await setIsLoggedIn(true);
       await setUsernameAction(username);
       history.push('/tabs/schedule', {direction: 'none'});
+
+      axios.post('http://192.168.0.185:9586/users/create', { name: username, password: password, doctor: doctor }, {headers:headers})
+        .then(function(response){
+        console.log('saved successfully')
+  }).catch((error) => {console.log(error)});  
     }
   };
 
@@ -93,6 +109,8 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
         <div className="login-logo">
           <img src="assets/img/sign-up.png" alt="Ionic logo" />
         </div>
+
+
 
         <form noValidate onSubmit={login}>
           <IonList>
@@ -121,6 +139,15 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
               </IonInput>
             </IonItem>
 
+            <IonItem>
+            <IonLabel position="stacked" color="primary">Doctor  </IonLabel>
+              <IonCheckbox color="dark" onIonChange={e => {
+                setDoctor(true); 
+                setDoctorError(false);
+                }}>
+            Doctor</IonCheckbox>
+            </IonItem>
+
             {formSubmitted && passwordError && <IonText color="danger">
               <p className="ion-padding-start">
                 Password is required
@@ -142,8 +169,9 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
             <IonButton expand="block" onClick={takePicture}>Take pic</IonButton>
               <img alt="Imagine inexistenta" src={selfie}/>
 
+          
+ 
           </IonList>
-
           <IonRow>
             <IonCol>
               <IonButton type="submit" expand="block" >Create</IonButton>
@@ -151,6 +179,9 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
           </IonRow>
         </form>
              
+
+
+
       </IonContent>
     
     </IonPage>
