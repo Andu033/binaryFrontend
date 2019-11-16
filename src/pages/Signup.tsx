@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IonCheckbox, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
+import {getUser} from "../reducer/user.actions"
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import {Plugins, CameraResultType} from '@capacitor/core'
@@ -9,8 +10,9 @@ import { async } from 'q';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { render } from '@testing-library/react';
 
-import axios from 'axios';
 
+import axios from 'axios';
+import * as selectors from '../data/selectors';
 interface OwnProps extends RouteComponentProps {}
 
 interface DispatchProps {
@@ -20,7 +22,7 @@ interface DispatchProps {
 
 interface LoginProps extends OwnProps,  DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUsernameAction}) => {
+const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
   defineCustomElements(window);
   const [username, setUsername] = useState('');
@@ -35,23 +37,20 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   const {Camera} =Plugins;
 
 
-
-
-  const takePicture= async()=> {   console.log("a mers")
+  const takePicture= async()=> {
 
    const image = await Camera.getPhoto({
    quality: 90,
    allowEditing: false,
    resultType: CameraResultType.Uri
    });
+
+
    var imageUrl = (image.webPath)?image.webPath:'';
-   console.log("a mers")
+   var image64base = (image.base64String)?image.base64String:'';
+   console.log(image64base)
    setSelfie(imageUrl)
-   var reader = new FileReader();
-   //reader.readAsDataURL(new Blob(imageUrl));
-   reader.onloadend = function(){
-     //gabi aici bagi tu
-   }
+
   };
 
   const [doctor, setDoctor]=useState(false);
@@ -82,21 +81,24 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
       setSelfieError(true);
     }
 
-    if(username && password && idCard && selfie) {
+    if(username && password  && selfie) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
       history.push('/tabs/schedule', {direction: 'none'});
 
       axios.post('http://192.168.0.185:9586/users/create', { name: username, password: password, doctor: doctor }, {headers:headers})
-        .then(function(response){
+        .then(function(response){console.log(response.data)
+          getUser(response.data)
         console.log('saved successfully')
-  }).catch((error) => {console.log(error)});  
+  }).catch((error) => {console.log(error)}).finally(()=>{console.log(id)});  
     }
   };
 
   return (
+
     <IonPage id="signup-page">
       <IonHeader>
+      {console.log(id)}
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton></IonMenuButton>
@@ -105,13 +107,10 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
         <div className="login-logo">
           <img src="assets/img/sign-up.png" alt="Ionic logo" />
         </div>
-
-
-
+    
         <form noValidate onSubmit={login}>
           <IonList>
             <IonItem>
@@ -183,10 +182,15 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   );
 };
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, {}, any>({
+  mapStateToProps:(state,OwnProps)=>{
+    const id = (state.user2)?state.user2.id:undefined
+    return {id:state}
+  },
   mapDispatchToProps: {
     setIsLoggedIn,
-    setUsername
+    setUsername,
+    getUser
   },
   component: Login
 })

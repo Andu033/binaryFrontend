@@ -18,8 +18,8 @@ interface DispatchProps { };
 
 interface SpeakerListProps extends OwnProps, StateProps, DispatchProps { };
 
-const SpeakerList: React.FC<SpeakerListProps> = ({ speakers, speakerSessions }) => {
-
+const SpeakerList: React.FC<any> = (props) => {
+  console.log(props)
   return (
     <IonPage id="speaker-list">
       <IonHeader>
@@ -35,15 +35,11 @@ const SpeakerList: React.FC<SpeakerListProps> = ({ speakers, speakerSessions }) 
         <IonList>
           <IonGrid fixed>
             <IonRow align-items-stretch>
-              {speakers.map(speaker => (
-                <IonCol size="12" size-md="6" key={speaker.id}>
-                  <SpeakerItem
-                    key={speaker.id}
-                    speaker={speaker}
-                    sessions={speakerSessions[speaker.id]}
-                  />
+              {/* {props.sessionGroups.map((p:any) => (
+                <IonCol size="12" size-md="6" key={p.id}>
+                  <h1>{p.id}</h1>
                 </IonCol>
-              ))}
+              ))} */}
             </IonRow>
           </IonGrid>
         </IonList>
