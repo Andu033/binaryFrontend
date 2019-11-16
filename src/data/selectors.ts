@@ -5,6 +5,7 @@ import { SessionGroup } from '../models/SessionGroup';
 import { AppState } from './state';
 
 const getSessions = (state: AppState) => state.data.sessions;
+const getUser= (state:any) => state;
 export const getSpeakers = (state: AppState) => state.data.speakers;
 const getFilteredTracks = (state: AppState) => state.data.filteredTracks;
 const getFavoriteIds = (state: AppState) => state.data.favorites;
@@ -63,6 +64,10 @@ export const getSession = createSelector(
   getSessions, getIdParam,
   (sessions, id) => sessions.find(x => x.id === id)
 );
+
+export const getUser2 = createSelector(
+  getUser,(users)=>users
+)
 
 function groupSessions(sessions: Session[]) {
   return sessions

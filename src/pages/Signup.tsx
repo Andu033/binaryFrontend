@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { IonCheckbox, IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonRow, IonCol, IonButton, IonList, IonItem, IonLabel, IonInput, IonText } from '@ionic/react';
 import './Login.scss';
 import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
+import {getUser} from "../reducer/user.actions"
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
-
+import * as selectors from '../data/selectors';
 interface OwnProps extends RouteComponentProps {}
 
 interface DispatchProps {
@@ -15,7 +16,7 @@ interface DispatchProps {
 
 interface LoginProps extends OwnProps,  DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUsernameAction}) => {
+const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -48,9 +49,10 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
       history.push('/tabs/schedule', {direction: 'none'});
 
       axios.post('http://192.168.0.185:9586/users/create', { name: username, password: password, doctor: doctor }, {headers:headers})
-        .then(function(response){
+        .then(function(response){console.log(response.data)
+          getUser(response.data.id)
         console.log('saved successfully')
-  }).catch((error) => {console.log(error)});  
+  }).catch((error) => {console.log(error)}).finally(()=>{console.log(id)});  
     }
   };
 
@@ -65,11 +67,10 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
         </IonToolbar>
       </IonHeader>
       <IonContent>
-
         <div className="login-logo">
           <img src="assets/img/appicon.svg" alt="Ionic logo" />
         </div>
-
+        <h1>{id+""}</h1>
 
 
         <form noValidate onSubmit={login}>
@@ -129,10 +130,16 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   );
 };
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, {}, any>({
+  mapStateToProps:(state,OwnProps)=>{
+    console.log(state)
+    const id = (state.user2)?state.user2.id:undefined
+    return {id:id}
+  },
   mapDispatchToProps: {
     setIsLoggedIn,
-    setUsername
+    setUsername,
+    getUser
   },
   component: Login
 })
