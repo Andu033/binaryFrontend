@@ -19,6 +19,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { setDarkMode } from '../data/user/user.actions';
 import { Plugins } from '@capacitor/core';
 import Axios from 'axios';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
 const { Geolocation } = Plugins;
 
 const routes = {
@@ -59,7 +60,7 @@ interface MenuProps extends RouteComponentProps, StateProps, DispatchProps { }
 
 const Menu: React.FC<any> = ({id, darkMode, history, isAuthenticated, setDarkMode }) => {
   const [disableMenu, setDisableMenu] = useState(false);
-  const [coord,setCoord] = React.useState({})
+  const [coord,setCoord] = React.useState({latitude:1.1,longitude:1.1})
   React.useEffect(()=>{
     Geolocation.watchPosition({},(position:any,err:any)=>{
       if(!err){
@@ -74,7 +75,7 @@ const Menu: React.FC<any> = ({id, darkMode, history, isAuthenticated, setDarkMod
       'Content-Type': 'application/json',
     }
     console.log(id)
-    Axios.post('http://192.168.1.198:9586/incidens/addincident', { location: coord }, {headers:headers})
+    Axios.post(`http://192.168.0.185:9586/incidents/addincident?id=${id.user2.id}`, { location: {lat:coord.latitude+0.0020,lng:coord.longitude+0.0035} }, {headers:headers})
     .then(function(response){
     console.log('saved successfully')
 }).catch((error:any) => {console.log(error)});  
