@@ -1,2 +1,0 @@
-(this["webpackJsonpionic-react-conference-app"]=this["webpackJsonpionic-react-conference-app"]||[]).push([[5],{296:function(n,t,e){"use strict";e.r(t),e.d(t,"startStatusTap",(function(){return o}));var c=e(32),o=(e(7),function(){var n=window;n.addEventListener("statusTap",(function(){Object(c.g)((function(){var t=n.innerWidth,e=n.innerHeight,o=document.elementFromPoint(t/2,e/2);if(o){var i=o.closest("ion-content");i&&i.componentOnReady().then((function(){Object(c.m)((function(){return i.scrollToTop(300)}))}))}}))}))})}}]);
-//# sourceMappingURL=5.6b3bff76.chunk.js.map

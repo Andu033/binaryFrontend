@@ -5,6 +5,11 @@ import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
 import {getUser} from "../reducer/user.actions"
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
+import {Plugins, CameraResultType} from '@capacitor/core'
+import { async } from 'q';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { render } from '@testing-library/react';
+
 import axios from 'axios';
 import * as selectors from '../data/selectors';
 interface OwnProps extends RouteComponentProps {}
@@ -18,12 +23,39 @@ interface LoginProps extends OwnProps,  DispatchProps { }
 
 const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
+  defineCustomElements(window);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [doctor, setDoctor]=useState(false);
+  const [idCard, setIdCard] = useState('');
+  const [selfie, setSelfie] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [idCardError, setIdCardError] = useState(false);
+  const [idSelfie, setSelfieError] = useState(false);
+  const {Camera} =Plugins;
+
+
+
+
+  const takePicture= async()=> {   console.log("a mers")
+
+   const image = await Camera.getPhoto({
+   quality: 90,
+   allowEditing: false,
+   resultType: CameraResultType.Uri
+   });
+   var imageUrl = (image.webPath)?image.webPath:'';
+   console.log("a mers")
+   setSelfie(imageUrl)
+   var reader = new FileReader();
+   //reader.readAsDataURL(new Blob(imageUrl));
+   reader.onloadend = function(){
+     //gabi aici bagi tu
+   }
+  };
+
+  const [doctor, setDoctor]=useState(false);
   const [doctorError, setDoctorError] = useState(false);
 
 
@@ -43,7 +75,15 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
       setPasswordError(true);
     }
 
-    if(username && password) {
+    if(!idCard) {
+      setIdCardError(true);
+    }
+
+    if(!selfie) {
+      setSelfieError(true);
+    }
+
+    if(username && password && idCard && selfie) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
       history.push('/tabs/schedule', {direction: 'none'});
@@ -70,7 +110,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
       </IonHeader>
       <IonContent>
         <div className="login-logo">
-          <img src="assets/img/appicon.svg" alt="Ionic logo" />
+          <img src="assets/img/sign-up.png" alt="Ionic logo" />
         </div>
         <h1>{id+""}</h1>
 
@@ -116,18 +156,32 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
                 Password is required
               </p>
             </IonText>}
+
+            <IonItem>
+              <IonLabel position="stacked" color="primary">Id Card  (please take a picture of your Id Card)</IonLabel>
+            </IonItem>
+            <IonButton expand="block" onClick={takePicture}>Take pic</IonButton>
+              <img alt="Imagine inexistenta" src={selfie}/>
+
+            
+
+            
+            
           
+ 
           </IonList>
           <IonRow>
             <IonCol>
-              <IonButton type="submit" expand="block">Create</IonButton>
+              <IonButton type="submit" expand="block" >Create</IonButton>
             </IonCol>
           </IonRow>
         </form>
+             
+
 
 
       </IonContent>
-
+    
     </IonPage>
   );
 };

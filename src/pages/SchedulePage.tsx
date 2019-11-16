@@ -49,9 +49,7 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGrou
             <IonSegmentButton value="all" checked={segment === 'all'}>
               All
             </IonSegmentButton>
-            <IonSegmentButton value="favorites" checked={segment === 'favorites'}>
-              Favorites
-            </IonSegmentButton>
+           
           </IonSegment>
 
           <IonButtons slot="end">

@@ -15,7 +15,7 @@ const About: React.FC<AboutProps> = () => {
     setPopoverEvent(e.nativeEvent);
     setShowPopover(true);
   };
-  const conferenceDate = '2047-05-17';
+  const conferenceDate = '2019-11-17';
 
   return (
     <IonPage id="about-page">
@@ -38,20 +38,20 @@ const About: React.FC<AboutProps> = () => {
           <img src="assets/img/ionic-logo-white.svg" alt="ionic logo" />
         </div>
         <div className="about-info">
-          <h4 className="ion-padding-start">Ionic Conference</h4>
+          <h4 className="ion-padding-start">Emergency App</h4>
 
           <IonList lines="none">
             <IonItem>
               <IonIcon icon={calendar} slot="start"></IonIcon>
               <IonLabel position="stacked">Date</IonLabel>
-              <IonDatetime displayFormat="MMM DD, YYYY" max="2056" value={conferenceDate}></IonDatetime>
+              <IonDatetime displayFormat="MMM DD, YYYY" max="2019" value={conferenceDate}></IonDatetime>
             </IonItem>
 
             <IonItem>
               <IonIcon icon={pin} slot="start"></IonIcon>
               <IonLabel position="stacked">Location</IonLabel>
               <IonSelect>
-                <IonSelectOption value="madison" selected>Madison, WI</IonSelectOption>
+                <IonSelectOption value="madison" selected>Bucharest, Romania</IonSelectOption>
                 <IonSelectOption value="austin">Austin, TX</IonSelectOption>
                 <IonSelectOption value="chicago">Chicago, IL</IonSelectOption>
                 <IonSelectOption value="seattle">Seattle, WA</IonSelectOption>
@@ -60,10 +60,7 @@ const About: React.FC<AboutProps> = () => {
           </IonList>
 
           <p className="ion-padding-start ion-padding-end">
-            The Ionic Conference is a one-day conference featuring talks from the Ionic team. It is focused on Ionic applications being
-            built with Ionic 2. This includes migrating apps from Ionic 1 to Ionic 2, Angular concepts, Webpack, Sass, and many
-            other technologies used in Ionic 2. Tickets are completely sold out, and we’re expecting more than 1000 developers
-            – making this the largest Ionic conference ever!
+            Steps
           </p>
         </div>
       </IonContent>
