@@ -50,15 +50,17 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
 
       axios.post('http://192.168.0.185:9586/users/create', { name: username, password: password, doctor: doctor }, {headers:headers})
         .then(function(response){console.log(response.data)
-          getUser(response.data.id)
+          getUser(response.data)
         console.log('saved successfully')
   }).catch((error) => {console.log(error)}).finally(()=>{console.log(id)});  
     }
   };
 
   return (
+
     <IonPage id="signup-page">
       <IonHeader>
+      {console.log(id)}
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton></IonMenuButton>
@@ -132,9 +134,8 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
 
 export default connect<OwnProps, {}, any>({
   mapStateToProps:(state,OwnProps)=>{
-    console.log(state)
     const id = (state.user2)?state.user2.id:undefined
-    return {id:id}
+    return {id:state}
   },
   mapDispatchToProps: {
     setIsLoggedIn,

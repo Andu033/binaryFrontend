@@ -1,6 +1,6 @@
-export const getUser = (id: number) => ({
+export const getUser = (user: any) => ({
   type: 'get-user',
-  payload:id
+  payload:user
 } as const);
 
 
