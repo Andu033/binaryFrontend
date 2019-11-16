@@ -10,6 +10,7 @@ import { async } from 'q';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { render } from '@testing-library/react';
 
+
 import axios from 'axios';
 import * as selectors from '../data/selectors';
 interface OwnProps extends RouteComponentProps {}
@@ -36,23 +37,20 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
   const {Camera} =Plugins;
 
 
-
-
-  const takePicture= async()=> {   console.log("a mers")
+  const takePicture= async()=> {
 
    const image = await Camera.getPhoto({
    quality: 90,
    allowEditing: false,
    resultType: CameraResultType.Uri
    });
+
+
    var imageUrl = (image.webPath)?image.webPath:'';
-   console.log("a mers")
+   var image64base = (image.base64String)?image.base64String:'';
+   console.log(image64base)
    setSelfie(imageUrl)
-   var reader = new FileReader();
-   //reader.readAsDataURL(new Blob(imageUrl));
-   reader.onloadend = function(){
-     //gabi aici bagi tu
-   }
+
   };
 
   const [doctor, setDoctor]=useState(false);
@@ -83,7 +81,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
       setSelfieError(true);
     }
 
-    if(username && password && idCard && selfie) {
+    if(username && password  && selfie) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
       history.push('/tabs/schedule', {direction: 'none'});
@@ -112,9 +110,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
         <div className="login-logo">
           <img src="assets/img/sign-up.png" alt="Ionic logo" />
         </div>
-        <h1>{id+""}</h1>
-
-
+    
         <form noValidate onSubmit={login}>
           <IonList>
             <IonItem>
