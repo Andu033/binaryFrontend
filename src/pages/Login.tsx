@@ -4,6 +4,8 @@ import './Login.scss';
 import { setIsLoggedIn, setUsername } from '../data/user/user.actions';
 import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
+import Axios from 'axios';
+import { getUser2 } from '../data/selectors';
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -23,7 +25,21 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   const [passwordError, setPasswordError] = useState(false);
 
   const login = async (e: React.FormEvent) => {
-    e.preventDefault();
+    var url='http://192.168.1.198:9586/users/authentication?name='+username+'&password='+password
+    Axios.get(url) .then(function (response) {
+
+      if(response.data)
+      setFormSubmitted(true);
+      setIsLoggedIn(true);
+      setUsernameAction(username);
+      history.push('/tabs/schedule', {direction: 'none'});
+    })
+      .catch(function(error) 
+      {
+        console.log("bad username or password");
+      })};
+
+    /* e.preventDefault();
     setFormSubmitted(true);
     if(!username) {
       setUsernameError(true);
@@ -35,9 +51,8 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
     if(username && password) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
-      history.push('/tabs/schedule', {direction: 'none'});
-    }
-  };
+      history.push('/tabs/schedule', {direction: 'none'}); 
+    } */
 
   return (
     <IonPage id="login-page">

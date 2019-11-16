@@ -20,9 +20,9 @@ interface DispatchProps {
   setUsername: typeof setUsername;
 }
 
-interface LoginProps extends OwnProps,  DispatchProps { }
+interface SignUpProps extends OwnProps,  DispatchProps { }
 
-const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: setUsernameAction}) => {
+const SignUp: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
   defineCustomElements(window);
   const [username, setUsername] = useState('');
@@ -58,7 +58,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
 
 
 
-  const login = async (e: React.FormEvent) => {
+  const signup = async (e: React.FormEvent) => {
     const headers = {
       'Content-Type': 'application/json',
     }
@@ -90,7 +90,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
         .then(function(response){console.log(response.data)
           getUser(response.data)
         console.log('saved successfully')
-  }).catch((error) => {console.log(error)}).finally(()=>{console.log(id)});  
+       }).catch((error) => {console.log(error)}).finally(()=>{console.log(id)});  
     }
   };
 
@@ -111,7 +111,7 @@ const Login: React.FC<any> = ({id, getUser,setIsLoggedIn, history, setUsername: 
           <img src="assets/img/sign-up.png" alt="Ionic logo" />
         </div>
     
-        <form noValidate onSubmit={login}>
+        <form noValidate onSubmit={signup}>
           <IonList>
             <IonItem>
               <IonLabel position="stacked" color="primary">Username</IonLabel>
@@ -192,5 +192,5 @@ export default connect<OwnProps, {}, any>({
     setUsername,
     getUser
   },
-  component: Login
+  component: SignUp
 })
