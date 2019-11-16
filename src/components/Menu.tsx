@@ -17,6 +17,10 @@ import React, { useState } from 'react';
 import { connect } from '../data/connect';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { setDarkMode } from '../data/user/user.actions';
+import { Plugins } from '@capacitor/core';
+import Axios from 'axios';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
+const { Geolocation } = Plugins;
 
 const routes = {
   appPages: [
@@ -54,8 +58,28 @@ interface DispatchProps {
 
 interface MenuProps extends RouteComponentProps, StateProps, DispatchProps { }
 
-const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDarkMode }) => {
+const Menu: React.FC<any> = ({id, darkMode, history, isAuthenticated, setDarkMode }) => {
   const [disableMenu, setDisableMenu] = useState(false);
+  const [coord,setCoord] = React.useState({latitude:1.1,longitude:1.1})
+  React.useEffect(()=>{
+    Geolocation.watchPosition({},(position:any,err:any)=>{
+      if(!err){
+        setCoord(position.coords)
+        console.log(position.coords)
+      }
+    })
+  },[1])
+
+  const sendGeolocation = async (e: React.FormEvent) => {
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+    console.log(id)
+    Axios.post(`http://192.168.0.185:9586/incidents/addincident?id=${id.user2.id}`, { location: {lat:coord.latitude+0.0020,lng:coord.longitude+0.0035} }, {headers:headers})
+    .then(function(response){
+    console.log('saved successfully')
+}).catch((error:any) => {console.log(error)});  
+}
 
   function renderlistItems(list: Pages[]) {
     return list
@@ -68,8 +92,8 @@ const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDark
           </IonItem>
         </IonMenuToggle>
       ));
-  }
-
+  
+      }
   return (
     <IonMenu type="overlay" disabled={disableMenu} contentId="main">
       <IonHeader>
@@ -77,6 +101,13 @@ const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDark
           <IonTitle>Menu</IonTitle>
         </IonToolbar>
       </IonHeader>
+
+      <IonList>
+          <IonItem>
+            <IonLabel>Panic button</IonLabel>
+            <button  onClick={sendGeolocation}>PANIC</button>
+          </IonItem>
+        </IonList>
       <IonContent class="outer-content">
         <IonList>
           <IonListHeader>Navigate</IonListHeader>
@@ -87,6 +118,8 @@ const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDark
           {isAuthenticated ? renderlistItems(routes.loggedInPages) : renderlistItems(routes.loggedOutPages)}
         </IonList>
        
+   
+
         <IonList>
           <IonItem>
             <IonLabel>Dark Theme</IonLabel>
@@ -98,10 +131,11 @@ const Menu: React.FC<MenuProps> = ({ darkMode, history, isAuthenticated, setDark
   );
 };
 
-export default connect<{}, StateProps, {}>({
+export default connect<{}, any, {}>({
   mapStateToProps: (state) => ({
     darkMode: state.user.darkMode,
-    isAuthenticated: state.user.isLoggedin
+    isAuthenticated: state.user.isLoggedin,
+    id:state
   }),
   mapDispatchToProps: ({
     setDarkMode

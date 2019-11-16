@@ -1,4 +1,4 @@
-import { IonItemDivider, IonItemGroup, IonLabel, IonList, IonListHeader, IonAlert, AlertButton } from '@ionic/react';
+import { IonItemDivider, IonItemGroup, IonLabel, IonList, IonListHeader, IonAlert, AlertButton, IonCard, IonFab, IonIcon, IonItem } from '@ionic/react';
 import React, { useState, useCallback } from 'react';
 import { Session } from '../models/Session';
 import SessionListItem from './SessionListItem';
@@ -50,7 +50,28 @@ console.log(incidents)
     <>
       <IonList>
         {incidents.map((incident:any, index: number) => (
-          <IonLabel>{incident.id+"  "}</IonLabel>
+          //<IonLabel>{incident.id+"  "}</IonLabel>
+          <IonCard>
+          
+            <IonFab>
+              <IonIcon name="pin"></IonIcon>
+            </IonFab>
+            <IonFab>
+              <button ion-fab>TRACK
+                <IonIcon name="pin"></IonIcon>
+              </button>
+            </IonFab>
+            <IonItem>
+              <IonIcon name="photo" ></IonIcon>
+              <h2>{incident.id+ " "}</h2>
+              <p>{incident.name}</p>
+            </IonItem>
+            <IonItem>
+            <h2>Longitude is {incident.location.lng} </h2>
+            <h2> ---</h2>
+            <h2> Latitude is {incident.location.lat}</h2>
+            </IonItem>
+          </IonCard>
         ))}
       </IonList>
       <IonAlert

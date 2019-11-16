@@ -60,7 +60,7 @@ const About: React.FC<AboutProps> = () => {
           </IonList>
 
           <p className="ion-padding-start ion-padding-end">
-            Steps
+         
           </p>
         </div>
       </IonContent>
