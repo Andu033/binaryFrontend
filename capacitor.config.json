@@ -1,0 +1,9 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "ionic-react-conference-app",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {},
+  "linuxAndroidStudioPath": "/home/andrei/software/android-studio/bin/studio.sh"
+}
