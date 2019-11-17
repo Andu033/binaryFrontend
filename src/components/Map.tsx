@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, CSSProperties } from 'react';
 import { Location } from '../models/Location';
-
+import CSS from 'csstype'
 interface MapProps {
   locations: Location[]
   mapCenter: Location
@@ -24,7 +24,6 @@ const Map: React.FC<any> = ({ mapCenter, locations }) => {
 
     google.maps.event.addListenerOnce(map.current, 'idle', () => {
       if (mapEle.current) {
-        mapEle.current.classList.add('show-map');
       }
     });
 
@@ -47,9 +46,18 @@ const Map: React.FC<any> = ({ mapCenter, locations }) => {
     }
 
   }, [mapCenter, locations]);
+ const style:CSS.Properties={
+    position: 'static'  // 20px !important
+  };
+  return (<>
+    <div ref={mapEle} id="ancaaaaaaa" style={{
+    position: 'static', height:'100%'  // 20px !important
+  }}></div>
+    {
+     
 
-  return (
-    <div ref={mapEle} className="map-canvas"></div>
+    }
+    </>
   );
 }
 

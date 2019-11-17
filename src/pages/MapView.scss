@@ -1,7 +1,6 @@
 #map-view {
   .map-canvas {
-    position: absolute;
-  
+    position: static;
     height: 100%;
     width: 100%;
   
@@ -12,6 +11,8 @@
   }
   
   .show-map {
+    position: static!important;
+
     opacity: 1;
   }
   

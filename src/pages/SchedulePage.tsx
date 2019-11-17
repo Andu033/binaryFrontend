@@ -24,7 +24,7 @@ interface DispatchProps {
 
 type SchedulePageProps = OwnProps & StateProps & DispatchProps;
 
-const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGroups, setSearchText, mode }) => {
+const SchedulePage: React.FC<any> = ({user, favoriteGroups, sessionGroups, setSearchText, mode }) => {
   const [segment, setSegment] = useState<'all' | 'favorites'>('all');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
@@ -88,10 +88,11 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGrou
           listType={segment}
           hide={segment === 'favorites'}
         /> */}
-        
+        {console.log(user)}
+        {(user.doctor)&&
         <SessionList
           incidents={incidente}
-        />
+        />}
       </IonContent>
 
       <IonModal
@@ -113,6 +114,7 @@ export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     sessionGroups: selectors.getGroupedSessions(state),
     favoriteGroups: selectors.getGroupedFavorites(state),
+    user:(state.user2)?state.user2:{doctor:false},
     mode: getConfig()!.get('mode')
   }),
   mapDispatchToProps: {
