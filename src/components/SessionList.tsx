@@ -6,6 +6,7 @@ import { SessionGroup } from '../models/SessionGroup';
 import { Time } from '../components/Time';
 import { connect } from '../data/connect';
 import Map from './Map';
+import Axios from 'axios'
 
 import { addFavorite, removeFavorite } from '../data/sessions/sessions.actions';
 import {IonModal, IonButton, IonContent} from '@ionic/react'
@@ -37,7 +38,13 @@ const SessionList: React.FC<any> = ({ incidents }) => {
     setAlertButtons(buttons);
     setShowAlert(true);
   }, [1]);
+  const del = (id:any)=>{
+    Axios.get(`http://192.168.0.185:9586/incidents/invalidate?id=${id}`).then((response) => {
+      
 
+    })
+  }
+  
   if (incidents.length === 0) {
     return (
       <IonList>
@@ -64,7 +71,6 @@ const SessionList: React.FC<any> = ({ incidents }) => {
       </IonModal>
       <IonButton onClick={() => setShowModal(true)}>Show Modal</IonButton>
         {incidents.map((incident:any, index: number) => (
-          //<IonLabel>{incident.id+"  "}</IonLabel>
           <IonCard>
            <IonContent fullscreen class="ion-padding">
          
@@ -74,6 +80,7 @@ const SessionList: React.FC<any> = ({ incidents }) => {
             </IonFab>
             <IonFab>
               <IonButton expand="block" onClick={() => {setShowModal(true);setLoc([{lng:incident.location.lng,lat:incident.location.lat}]);console.log(loc)}}>Show Map</IonButton>
+              <IonButton expand="block" onClick={() => {del(incident.id)}}>finish</IonButton>
             </IonFab>
             <IonItem>
               <IonIcon name="photo" ></IonIcon>
