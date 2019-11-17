@@ -6,7 +6,7 @@ interface MapProps {
   mapCenter: Location
 }
 
-const Map: React.FC<MapProps> = ({ mapCenter, locations }) => {
+const Map: React.FC<any> = ({ mapCenter, locations }) => {
   const mapEle = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map>();
 
@@ -28,7 +28,7 @@ const Map: React.FC<MapProps> = ({ mapCenter, locations }) => {
     });
 
     function addMarkers() {
-      locations.forEach((markerData) => {
+      locations.forEach((markerData:any) => {
         let infoWindow = new google.maps.InfoWindow({
           content: `<h5>${markerData.name}</h5>`
         });

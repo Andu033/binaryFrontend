@@ -6,6 +6,8 @@ import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import Axios from 'axios';
 import { getUser2 } from '../data/selectors';
+import {getUser} from "../reducer/user.actions"
+
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -16,30 +18,32 @@ interface DispatchProps {
 
 interface LoginProps extends OwnProps,  DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUsernameAction}) => {
+const Login: React.FC<any> = ({getUser, setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [Authentification, setAuthentification] = useState(false);
+
+  var url='http://192.168.0.185:9586/users/authentication?name='+username+'&password='+password
+  const call=() => { 
+    Axios.get(url).then(function (response) {
+  
+      if(response.data!= Error )
+        setAuthentification(true) ;
+        getUser(response.data);
+      })
+        .catch(function(error) 
+        {
+          return false;
+        });
+  };
 
   const login = async (e: React.FormEvent) => {
-    var url='http://192.168.1.198:9586/users/authentication?name='+username+'&password='+password
-    Axios.get(url) .then(function (response) {
 
-      if(response.data)
-      setFormSubmitted(true);
-      setIsLoggedIn(true);
-      setUsernameAction(username);
-      history.push('/tabs/schedule', {direction: 'none'});
-    })
-      .catch(function(error) 
-      {
-        console.log("bad username or password");
-      })};
-
-    /* e.preventDefault();
+    e.preventDefault();
     setFormSubmitted(true);
     if(!username) {
       setUsernameError(true);
@@ -47,12 +51,12 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
     if(!password) {
       setPasswordError(true);
     }
-
-    if(username && password) {
+    call();
+    if(Authentification == true) {
       await setIsLoggedIn(true);
       await setUsernameAction(username);
       history.push('/tabs/schedule', {direction: 'none'}); 
-    } */
+    } };
 
   return (
     <IonPage id="login-page">
@@ -114,10 +118,11 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   );
 };
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, {}, any>({
   mapDispatchToProps: {
     setIsLoggedIn,
-    setUsername
+    setUsername,
+    getUser
   },
   component: Login
 })
