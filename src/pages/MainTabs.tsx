@@ -9,7 +9,6 @@ import SessionDetail from './SessionDetail';
 import MapView from './MapView';
 import About from './About';
 
-
 interface MainTabsProps { }
 
 const MainTabs: React.FC<MainTabsProps> = () => {
@@ -22,7 +21,6 @@ const MainTabs: React.FC<MainTabsProps> = () => {
           Using the render method prop cuts down the number of renders your components will have due to route changes.
           Use the component prop when your component depends on the RouterComponentProps passed in automatically.        
         */}
-        
         <Route path="/tabs/schedule" render={() => <SchedulePage />} exact={true} />
         <Route path="/tabs/speakers" render={() => <SpeakerList />} exact={true} />
         <Route path="/tabs/speakers/:id" component={SpeakerDetail} exact={true} />
@@ -34,11 +32,11 @@ const MainTabs: React.FC<MainTabsProps> = () => {
       <IonTabBar slot="bottom">
         <IonTabButton tab="schedule" href="/tabs/schedule">
           <IonIcon icon={calendar} />
-          <IonLabel>Schedule</IonLabel>
+          <IonLabel>Notifications</IonLabel>
         </IonTabButton>
         <IonTabButton tab="speakers" href="/tabs/speakers">
           <IonIcon icon={contacts} />
-          <IonLabel>Speakers</IonLabel>
+          <IonLabel>Doctors</IonLabel>
         </IonTabButton>
         <IonTabButton tab="map" href="/tabs/map">
           <IonIcon icon={map} />
