@@ -38,11 +38,10 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoriteGroups, sessionGrou
   };
   useEffect(()=>{
     Axios.get('http://192.168.0.185:9586/incidents/getincidents').then((response) => {
-      console.log(response.data)
       setIncidente(response.data)
 
     })
-  })
+  },[1])
   return (
     <IonPage id="schedule-page">
       <IonHeader>
