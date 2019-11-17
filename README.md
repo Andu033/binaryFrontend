@@ -1,3 +1,3 @@
-# Ionic React Conference Demo App
+# APP FOR EMERGENCY SITUATIONS WHERE IMMEDIATLY HELP CAN BE ACHIEVED
 
-You can see a live demo here. (https://ionic-react-conference-app.firebaseapp.com/)
+Developed during Binary Hackathon organised by CST 
