@@ -25,7 +25,6 @@ interface DispatchProps {
 interface SessionListProps extends OwnProps, StateProps, DispatchProps { };
 
 const SessionList: React.FC<any> = ({ incidents }) => {
-console.log(incidents)
   const [showAlert, setShowAlert] = useState(false);
   const [alertHeader, setAlertHeader] = useState('');
   const [alertButtons, setAlertButtons] = useState<(AlertButton | string)[]>([]);

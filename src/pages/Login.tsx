@@ -6,6 +6,8 @@ import { connect } from '../data/connect';
 import { RouteComponentProps } from 'react-router';
 import Axios from 'axios';
 import { getUser2 } from '../data/selectors';
+import {getUser} from "../reducer/user.actions"
+
 
 interface OwnProps extends RouteComponentProps {}
 
@@ -16,7 +18,7 @@ interface DispatchProps {
 
 interface LoginProps extends OwnProps,  DispatchProps { }
 
-const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUsernameAction}) => {
+const Login: React.FC<any> = ({getUser, setIsLoggedIn, history, setUsername: setUsernameAction}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,6 +33,7 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   
       if(response.data!= Error )
         setAuthentification(true) ;
+        getUser(response.data);
       })
         .catch(function(error) 
         {
@@ -115,10 +118,11 @@ const Login: React.FC<LoginProps> = ({setIsLoggedIn, history, setUsername: setUs
   );
 };
 
-export default connect<OwnProps, {}, DispatchProps>({
+export default connect<OwnProps, {}, any>({
   mapDispatchToProps: {
     setIsLoggedIn,
-    setUsername
+    setUsername,
+    getUser
   },
   component: Login
 })
