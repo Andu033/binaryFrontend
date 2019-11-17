@@ -1,3 +1,4 @@
+import '@ionic/core/css/ionic.bundle.css';
 import {
   IonContent,
   IonHeader,
@@ -5,6 +6,7 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonButton,
   IonListHeader,
   IonMenu,
   IonMenuToggle,
@@ -21,6 +23,7 @@ import { Plugins } from '@capacitor/core';
 import Axios from 'axios';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
 const { Geolocation } = Plugins;
+
 
 const routes = {
   appPages: [
@@ -105,7 +108,7 @@ const Menu: React.FC<any> = ({id, darkMode, history, isAuthenticated, setDarkMod
       <IonList>
           <IonItem>
             <IonLabel>Panic button</IonLabel>
-            <button  onClick={sendGeolocation}>PANIC</button>
+            <IonButton expand="block" size="large" onClick={sendGeolocation}>PANIC</IonButton>
           </IonItem>
         </IonList>
       <IonContent class="outer-content">

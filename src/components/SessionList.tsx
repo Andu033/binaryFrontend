@@ -69,7 +69,7 @@ const SessionList: React.FC<any> = ({ incidents }) => {
 
         <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
       </IonModal>
-      <IonButton onClick={() => setShowModal(true)}>Show Modal</IonButton>
+     
         {incidents.map((incident:any, index: number) => (
           <IonCard>
            <IonContent fullscreen class="ion-padding">
