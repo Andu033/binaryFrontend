@@ -32,12 +32,9 @@ const MainTabs: React.FC<MainTabsProps> = () => {
       <IonTabBar slot="bottom">
         <IonTabButton tab="schedule" href="/tabs/schedule">
           <IonIcon icon={calendar} />
-          <IonLabel>Notifications</IonLabel>
+          <IonLabel>Incidents</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="speakers" href="/tabs/speakers">
-          <IonIcon icon={contacts} />
-          <IonLabel>Doctors</IonLabel>
-        </IonTabButton>
+     
         <IonTabButton tab="map" href="/tabs/map">
           <IonIcon icon={map} />
           <IonLabel>Map</IonLabel>

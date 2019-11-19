@@ -27,12 +27,12 @@ const { Geolocation } = Plugins;
 
 const routes = {
   appPages: [
-    { title: 'Notifications', path: '/tabs/schedule', icon: calendar },
-    { title: 'Doctors', path: '/tabs/speakers', icon: contacts },
     { title: 'Map', path: '/tabs/map', icon: map },
-    { title: 'About', path: '/tabs/about', icon: informationCircle }
+    { title: 'About', path: '/tabs/about', icon: informationCircle },
   ],
   loggedInPages: [
+    { title: 'Incidents', path: '/tabs/schedule', icon: calendar },
+
     { title: 'Account', path: '/account', icon: person },
     { title: 'Support', path: '/support', icon: help },
     { title: 'Logout', path: '/logout', icon: logOut }
@@ -78,7 +78,7 @@ const Menu: React.FC<any> = ({id, darkMode, history, isAuthenticated, setDarkMod
       'Content-Type': 'application/json',
     }
     console.log(id)
-    Axios.post(`http://192.168.0.185:9586/incidents/addincident?id=${id.user2.id}`, { location: {lat:coord.latitude+0.0020,lng:coord.longitude+0.0035} }, {headers:headers})
+    Axios.post(`http://192.168.0.185:9586/incidents/addincident?id=${id.user2.id}`, {name:id.user2.name, location: {lat:coord.latitude+0.0020,lng:coord.longitude+0.0035} }, {headers:headers})
     .then(function(response){
     console.log('saved successfully')
 }).catch((error:any) => {console.log(error)});  

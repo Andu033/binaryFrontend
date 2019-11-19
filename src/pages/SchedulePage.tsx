@@ -30,6 +30,7 @@ const SchedulePage: React.FC<any> = ({user, favoriteGroups, sessionGroups, setSe
   const ionRefresherRef = useRef<HTMLIonRefresherElement>(null);
   const [showCompleteToast, setShowCompleteToast] = useState(false);
   const [incidente, setIncidente] = useState([]);
+  const [update,setUpdate] =useState(false)
   const doRefresh = () => {
     setTimeout(() => {
       ionRefresherRef.current!.complete();
@@ -39,9 +40,10 @@ const SchedulePage: React.FC<any> = ({user, favoriteGroups, sessionGroups, setSe
   useEffect(()=>{
     Axios.get('http://192.168.0.185:9586/incidents/getincidents').then((response) => {
       setIncidente(response.data)
-
+      setUpdate(true)
+      setTimeout(()=>{setUpdate(false)},2000)
     })
-  })
+  },[update])
   return (
     <IonPage id="schedule-page">
       <IonHeader>
@@ -65,10 +67,7 @@ const SchedulePage: React.FC<any> = ({user, favoriteGroups, sessionGroups, setSe
         </IonToolbar>
 
         <IonToolbar>
-          <IonSearchbar
-            placeholder="Search"
-            onIonChange={(e: CustomEvent) => setSearchText(e.detail.value)}
-          />
+         
         </IonToolbar>
       </IonHeader>
 

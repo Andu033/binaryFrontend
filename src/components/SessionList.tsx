@@ -44,6 +44,18 @@ const SessionList: React.FC<any> = ({ incidents }) => {
 
     })
   }
+  const going = (id:any)=>{
+    Axios.get(`http://192.168.0.185:9586/incidents/ongoing?id=${id}`).then((response) => {
+      
+
+    })
+  }
+  const ban = (id:any)=>{
+    Axios.get(`http://192.168.0.185:9586/incidents/ban?id=${id}`).then((response) => {
+      
+
+    })
+  }
   
   if (incidents.length === 0) {
     return (
@@ -71,7 +83,7 @@ const SessionList: React.FC<any> = ({ incidents }) => {
       </IonModal>
      
         {incidents.map((incident:any, index: number) => (
-          <IonCard>
+          <IonCard color="danger">
            <IonContent fullscreen class="ion-padding">
          
           </IonContent>
@@ -81,13 +93,18 @@ const SessionList: React.FC<any> = ({ incidents }) => {
             <IonFab>
               <IonButton expand="block" onClick={() => {setShowModal(true);setLoc([{lng:incident.location.lng,lat:incident.location.lat}]);console.log(loc)}}>Show Map</IonButton>
               <IonButton expand="block" onClick={() => {del(incident.id)}}>finish</IonButton>
+              <div style={{alignSelf:"right"}}><IonButton  expand="block" onClick={() => {del(incident.id);ban(incident.id)}}>BAN</IonButton>
+        <IonButton expand="block" onClick={() => {going(incident.id)}} disabled={incident.help}>{incident.help?"taken":"go"}</IonButton></div>
             </IonFab>
+            <div style={{}}>
             <IonItem>
-              <IonIcon name="photo" ></IonIcon>
+              <IonIcon name="photo"  ></IonIcon>
               <h2>{incident.id+ " "}</h2>
-              <p>{incident.name}</p>
             </IonItem>
-            <IonItem>
+            <IonItem >
+              <div style={{textAlign:"center",width:"100%",height:"100%"}}>
+              <p>{incident.name}</p>
+
             <h2>Longitude is {incident.location.lng} </h2>
             <h2> ---</h2>
             {/* {
@@ -95,8 +112,9 @@ const SessionList: React.FC<any> = ({ incidents }) => {
               longitude:incident.location.lat,
             } */}
             <h2> Latitude is {incident.location.lat}</h2>
+            </div>
             </IonItem>
-           
+           </div>
           </IonCard>
 
        
